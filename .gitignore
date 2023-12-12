@@ -1,0 +1,15 @@
+# for qdrant
+/target
+/benches/search-points/target
+/.idea
+/.vscode
+/.devcontainer
+/qdrant_storage
+/snapshots
+/consensus_test_logs
+/config/local
+/tls
+/static
+*.log
+.qdrant-initialized
+/.hypothesis
