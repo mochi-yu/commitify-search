@@ -3,7 +3,7 @@ services:
   qdrant-db:
     image: qdrant/qdrant:v1.7.1
     volumes:
-      - ./qdrant_storage:/qdrant/storage
+      - db_data:/qdrant/storage
     networks:
       - app-net
   qdrant-client:
@@ -15,16 +15,14 @@ services:
     volumes:
       - ./api:/app
     tty: true
+    ports:
+      - 5001:5000
     networks:
       - app-net
+
+volumes:
+  db_data:
 
 networks:
   app-net:
     driver: bridge
-    # # IPアドレス管理（IPAM）の設定
-    # ipam:
-    #   # IPAMドライバーを指定
-    #   driver: default
-    #   # ネットワークのサブネット設定
-    #   config:
-    #     - subnet: 172.25.1.0/24
