@@ -1,9 +1,18 @@
-from qdrant_client import QdrantClient
-from qdrant_client.http.models import Distance, VectorParams
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-client = QdrantClient(host="qdrant-db", port=6333)
+from models.search import SearchRequestParam
 
-client.create_collection(
-    collection_name="test_collection",
-    vectors_config=VectorParams(size=4, distance=Distance.DOT),
-)
+from logic.search import serch_logic
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/search', methods=['POST'])
+def searchHandler():
+  param = SearchRequestParam(**request.json)
+
+  return jsonify(serch_logic(param).__dict__), 200
+
+if __name__ == '__main__':
+  app.run(debug=False, host='0.0.0.0', port=5000)
