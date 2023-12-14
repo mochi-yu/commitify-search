@@ -16,7 +16,7 @@ services:
       - ./api:/app
     tty: true
     ports:
-      - 5001:5000
+      - 5215:5000
     networks:
       - app-net
 
