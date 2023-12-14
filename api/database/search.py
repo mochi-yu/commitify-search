@@ -1,16 +1,18 @@
 from qdrant_client import QdrantClient
-import pickle
+from sentence_transformers import SentenceTransformer
 
-def serch_from_diff() -> list[str]:
+def serch_from_diff(diff: str) -> list[str]:
+  encoder = SentenceTransformer('all-MiniLM-L6-v2')
+
+  if encoder == None:
+    print('encoder is None.')
+    return []
+
   client = QdrantClient(host="qdrant-db", port=6333)
-
-  with open('./database/encoded_data.pickle', 'rb') as f:
-    encoded_data = pickle.load(f)
 
   hits = client.search(
       collection_name="git_log_data",
-      query_vector=encoded_data[0]['vector'],
-      score_threshold=0.5,
+      query_vector=encoder.encode(diff).tolist(),
       limit=5
   )
 
